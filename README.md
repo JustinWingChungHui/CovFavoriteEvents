@@ -1,0 +1,2 @@
+# CovFavoriteEvents
+CovFavoriteEvents
