@@ -4,10 +4,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { titleCase } from "title-case";
 import GoogleImageLoader from './components/GoogleImageLoader.vue'
 
 const data = ref(new Array<string>())
-const searchTerm = ref("Brian May")
+const searchTerm = ref("")
 
 onMounted(async () => {
   const response = await fetch('/events2020.txt');
@@ -20,7 +21,7 @@ onMounted(async () => {
 
 const setRandomSearchTerm = () => {  
   const index = Math.floor(Math.random() * data.value.length);
-  searchTerm.value = data.value[index];
+  searchTerm.value = titleCase(data.value[index]);
 };
 
 </script>

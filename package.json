@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "title-case": "^3.0.3",
     "vue": "^3.2.37"
   },
   "devDependencies": {
