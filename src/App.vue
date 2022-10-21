@@ -1,5 +1,5 @@
 <template>
-  <GoogleImageLoader :searchTerm="searchTerm" />
+  <GoogleImageLoader :event-info="eventInfo" :image-url="imageUrl" />
 </template>
 
 <script setup lang="ts">
@@ -8,7 +8,8 @@ import { titleCase } from "title-case";
 import GoogleImageLoader from './components/GoogleImageLoader.vue'
 
 const data = ref(new Array<string>())
-const searchTerm = ref("")
+const eventInfo = ref("")
+const imageUrl = ref("");
 
 onMounted(async () => {
   const response = await fetch('/events2020.txt');
@@ -21,7 +22,12 @@ onMounted(async () => {
 
 const setRandomSearchTerm = () => {  
   const index = Math.floor(Math.random() * data.value.length);
-  searchTerm.value = titleCase(data.value[index]);
+  const entry = data.value[index].split('|');
+
+  if (entry.length === 2) {
+    eventInfo.value = titleCase(entry[0]);
+    imageUrl.value = titleCase(entry[1]);
+  }
 };
 
 </script>
