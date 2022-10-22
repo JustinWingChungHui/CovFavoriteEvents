@@ -1,5 +1,5 @@
 <template>
-  <GoogleImageLoader :event-info="eventInfo" :image-url="imageUrl" />
+  <GoogleImageLoader :event-info="eventInfo" :image-url="imageUrl" @image-loaded="imageLoaded"/>
 </template>
 
 <script setup lang="ts">
@@ -16,9 +16,12 @@ onMounted(async () => {
   const text = await response.text()
 
   data.value = text.split('\n')
-
-  window.setInterval(setRandomSearchTerm, 3000);
+  setRandomSearchTerm();
 });
+
+const imageLoaded = () => {
+  window.setTimeout(setRandomSearchTerm, 5000);
+};
 
 const setRandomSearchTerm = () => {  
   const index = Math.floor(Math.random() * data.value.length);
