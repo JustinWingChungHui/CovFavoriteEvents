@@ -1,67 +1,38 @@
 <template>
   <h1 class="question">What Cultural Events did you attend in 2020?</h1>
-  <div class="background" :style="{ backgroundImage: backgroundUrl }">
-  </div>
-  <h1 class="answer">{{ displayTerm }}</h1>
+  <transition name="slide-fade">
+    <img class="background" :key="props.imageUrl" :src="props.imageUrl" @error="onError"/>
+  </transition>
+  <h1 class="answer">{{ props.eventInfo }}</h1>
 </template>
 
 <script setup lang="ts">
-import { defineEmits, ref, watch } from 'vue'
+import { defineEmits } from 'vue'
 
 const props = defineProps<{ 
   eventInfo: string,
   imageUrl: string 
 }>();
 
-const backgroundUrl = ref('');
-const displayTerm = ref('')
-const imageData = ref<string>('');
+const emit = defineEmits(['loadFailed']);
 
-const emit = defineEmits(['imageLoaded']);
-
-watch(() => props.imageUrl, async () => {
-
-  try {
-    console.log(`downloading ${props.imageUrl}`)
-    // Test image exists
-    imageData.value = await imageUrlToBase64(props.imageUrl);
-    console.log(imageData.value);
-    backgroundUrl.value = `url('${props.imageUrl}')`;
-    displayTerm.value = props.eventInfo;
-  } finally {
-    emit('imageLoaded');
-  }
-});
-
-
-const imageUrlToBase64 = async (url: string): Promise<string> => {
-  const response = await fetch(url, {
-    mode: 'no-cors'
-  });
-  const blob = await response.blob();
-  return new Promise((onSuccess, onError) => {
-    try {
-      const reader = new FileReader() ;
-      reader.onload = function(){ onSuccess(this.result as string) } ;
-      reader.readAsDataURL(blob) ;
-    } catch(e) {
-      onError(e);
-    }
-  });
+const onError = ()=> {
+  console.log('onError');
+  emit('loadFailed');
 };
-
 </script>
 
 <style scoped>
 .background {
-  width: 100%;
   height: 80%;
   position: absolute; 
-  top: 3em; 
+
+  top: 6em; 
+  margin-left: auto;
+  margin-right: auto;
   left: 0;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+  right: 0;
+  text-align: center;
 }
 
 .answer {
@@ -84,5 +55,23 @@ const imageUrlToBase64 = async (url: string): Promise<string> => {
   padding-top: 1em;
   padding-bottom: 1em;
   text-align: center;
+}
+
+/*
+  Enter and leave animations can use different
+  durations and timing functions.
+*/
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
