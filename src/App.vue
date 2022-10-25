@@ -10,10 +10,15 @@ import GoogleImageLoader from './components/GoogleImageLoader.vue'
 const data = ref(new Array<string>())
 const eventInfo = ref("")
 const imageUrl = ref("");
+const useGoogle = ref(false);
 
 onMounted(async () => {
-  // await startGoogleImageLoader();
-  await startAiImageLoader();
+  if (window.location.href.toLocaleLowerCase().includes('google')) {
+    useGoogle.value = true;
+    await startGoogleImageLoader();
+  } else {
+    await startAiImageLoader();
+  }
 });
 
 const startGoogleImageLoader = async () => {
@@ -57,8 +62,15 @@ const setRandomAiImage = () => {
   console.log('image', image);
 
   eventInfo.value = titleCase(entry);
-  imageUrl.value = image;
-  
+  imageUrl.value = image;  
+};
+
+const onLoadFailed = () => {
+  if (useGoogle.value) {
+    setRandomGoogleImage();
+  } else {
+    setRandomAiImage();
+  }
 };
 </script>
 

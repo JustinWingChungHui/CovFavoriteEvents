@@ -24,10 +24,11 @@ const onError = ()=> {
 
 <style scoped>
 .background {
-  height: 80%;
+  height: 80vh;
   position: absolute; 
-
-  top: 6em; 
+  max-width: 100vw;
+  object-fit: contain;
+  top: 8em; 
   margin-left: auto;
   margin-right: auto;
   left: 0;
@@ -38,7 +39,7 @@ const onError = ()=> {
 .answer {
   bottom: 0%;
   position: fixed;
-  width: 100%;
+  width: 100vw;
   margin: 0;
   padding-top: 1em;
   padding-bottom: 1em;
@@ -50,7 +51,7 @@ const onError = ()=> {
   position: fixed;
   z-index: 10;
   background-color: #242424;
-  width: 100%;
+  width: 100vw;
   margin: 0;
   padding-top: 1em;
   padding-bottom: 1em;
