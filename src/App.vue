@@ -11,6 +11,7 @@ const data = ref(new Array<string>())
 const eventInfo = ref("")
 const imageUrl = ref("");
 const useGoogle = ref(false);
+const slideTimeMs = 10000;
 
 onMounted(async () => {
   if (window.location.href.toLocaleLowerCase().includes('google')) {
@@ -27,7 +28,7 @@ const startGoogleImageLoader = async () => {
 
   data.value = text.split('\n')
   setRandomGoogleImage();
-  window.setInterval(setRandomGoogleImage, 5000);
+  window.setInterval(setRandomGoogleImage, slideTimeMs);
 };
 
 const setRandomGoogleImage = () => {  
@@ -47,7 +48,7 @@ const startAiImageLoader = async () => {
   data.value = text.split('\n')
 
   setRandomAiImage();
-  window.setInterval(setRandomAiImage, 5000);
+  window.setInterval(setRandomAiImage, slideTimeMs);
 };
 
 const setRandomAiImage = () => {  
@@ -57,7 +58,7 @@ const setRandomAiImage = () => {
   const entry = data.value[index];
 
   console.log('entry', entry);
-  const image = `/ai-images/${entry}.png`;
+  const image = `/ai-images/${entry}.jpg`;
 
   console.log('image', image);
 
